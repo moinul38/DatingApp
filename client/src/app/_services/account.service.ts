@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import { User } from '../_models/user';
 import { ReplaySubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -19,7 +20,7 @@ export class AccountService {
 
   login(model: any){
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
-      map((response: User | any) => {
+      map((response: User |any) => {
         const user = response;
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
@@ -48,9 +49,10 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    //this.presence.stopHubConnection();
   }
   
 }
